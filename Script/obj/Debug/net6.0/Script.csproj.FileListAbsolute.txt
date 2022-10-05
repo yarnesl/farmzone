@@ -1,0 +1,15 @@
+C:\Users\tenne\eclipse-workspace\farmzone\Script\bin\Debug\net6.0\Script.exe
+C:\Users\tenne\eclipse-workspace\farmzone\Script\bin\Debug\net6.0\Script.deps.json
+C:\Users\tenne\eclipse-workspace\farmzone\Script\bin\Debug\net6.0\Script.runtimeconfig.json
+C:\Users\tenne\eclipse-workspace\farmzone\Script\bin\Debug\net6.0\Script.dll
+C:\Users\tenne\eclipse-workspace\farmzone\Script\bin\Debug\net6.0\Script.pdb
+C:\Users\tenne\eclipse-workspace\farmzone\Script\obj\Debug\net6.0\Script.csproj.AssemblyReference.cache
+C:\Users\tenne\eclipse-workspace\farmzone\Script\obj\Debug\net6.0\Script.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tenne\eclipse-workspace\farmzone\Script\obj\Debug\net6.0\Script.AssemblyInfoInputs.cache
+C:\Users\tenne\eclipse-workspace\farmzone\Script\obj\Debug\net6.0\Script.AssemblyInfo.cs
+C:\Users\tenne\eclipse-workspace\farmzone\Script\obj\Debug\net6.0\Script.csproj.CoreCompileInputs.cache
+C:\Users\tenne\eclipse-workspace\farmzone\Script\obj\Debug\net6.0\Script.dll
+C:\Users\tenne\eclipse-workspace\farmzone\Script\obj\Debug\net6.0\refint\Script.dll
+C:\Users\tenne\eclipse-workspace\farmzone\Script\obj\Debug\net6.0\Script.pdb
+C:\Users\tenne\eclipse-workspace\farmzone\Script\obj\Debug\net6.0\Script.genruntimeconfig.cache
+C:\Users\tenne\eclipse-workspace\farmzone\Script\obj\Debug\net6.0\ref\Script.dll

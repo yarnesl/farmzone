@@ -1,0 +1,32 @@
+name: FarmZone
+main: io.github.yarnesl.farmzone.FarmZone
+version: 1.0
+author: yarnesl
+api-version: 1.19
+commands:
+  farmzone:
+    description: This is a test command
+    usage: /farmzone [opt]
+    aliases: [fz]
+    permission: farmzone.farmer.check_level
+    permission-message: You don't have permission
+  fzinfo:
+    description: Get FZ related info about a player
+    usage: /fzinfo [player]
+    permission: farmzone.farmer.info
+    permission-message: You don't have permission to use that command
+permissions:
+  farmzone.farmer.*:
+    description: Gives access to all farmer-level commands
+    children:
+      farmer.warp_spawn: true
+      farmer.check_level: true
+  farmzone.farmer.warp_spawn:
+    description: Allows a warp to spawn region
+    default: true
+  farmzone.farmer.check_level:
+    description: Allows a farmer to check his current level
+    default: true
+  farmzone.farmer.info:
+    description: Allows farmer to check a farmer's information
+    default: true

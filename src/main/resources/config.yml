@@ -1,0 +1,83 @@
+database:
+  url: jdbc:mysql://
+  host: localhost
+  port: 3306
+  database: player_info
+  username: root
+  password: LucasAY2002!
+experience:
+  wheat:
+    lower: 32
+    upper: 40
+    level-of-access: 1
+  carrot:
+    lower: 75
+    upper: 94
+    level-of-access: 2
+  potato:
+    lower: 132
+    upper: 165
+    level-of-access: 3
+  chicken:
+    lower: 206
+    upper: 258
+    level-of-access: 4
+  beetroot:
+    lower: 306
+    upper: 382
+    level-of-access: 5
+  pig:
+    lower: 437
+    upper: 546
+    level-of-access: 6
+  pumpkin:
+    lower: 610
+    upper: 762
+    level-of-access: 7
+  melon:
+    lower: 839
+    upper: 1049
+    level-of-access: 8
+  sheep:
+    lower: 1143
+    upper: 1429
+    level-of-access: 9
+  netherwart:
+    lower: 1544
+    upper: 1931
+    level-of-access: 10
+  sugarcane:
+    lower: 2076
+    upper: 2595
+    level-of-access: 11
+  cow:
+    lower: 2779
+    upper: 3474
+    level-of-access: 12
+  cactus:
+    lower: 3709
+    upper: 4636
+    level-of-access: 13
+  cocoa_beans:
+    lower: 4940
+    upper: 6175
+    level-of-access: 14
+  mooshroom:
+    lower: 6569
+    upper: 8211
+    level-of-access: 15
+level-thresholds:
+  to-carrot: 2669
+  to-potato: 7719
+  to-chicken: 16207
+  to-beetroot: 30086
+  to-pig: 52422
+  to-pumpkin: 88021
+  to-melon: 144418
+  to-sheep: 233435
+  to-netherwart: 373610
+  to-sugarcane: 594017
+  to-cow: 940251
+  to-cactus: 1483823
+  to-cocoabeans: 2336882
+  to-mooshroom: 3675312
