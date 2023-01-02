@@ -15,6 +15,12 @@ commands:
     usage: /fzinfo [player]
     permission: farmzone.farmer.info
     permission-message: You don't have permission to use that command
+  plotmine:
+    description: Commands related to creating and removing PlotMines
+    aliases: [pm]
+    usage: /plotmine [opts]
+    permissions: plotmine.modify
+    permission-message: You are not allowed to modify PlotMines
 permissions:
   farmzone.farmer.*:
     description: Gives access to all farmer-level commands
@@ -30,3 +36,6 @@ permissions:
   farmzone.farmer.info:
     description: Allows farmer to check a farmer's information
     default: true
+  plotmine.modify:
+     description: Allows creating and modifying PlotMines
+     default: true

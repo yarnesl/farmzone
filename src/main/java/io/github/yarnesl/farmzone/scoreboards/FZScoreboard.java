@@ -9,11 +9,12 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
+import io.github.yarnesl.farmzone.FZAnimal;
 import io.github.yarnesl.farmzone.FZPlayer;
 
 public class FZScoreboard {
     
-    public static void createScoreboard(Player player, FZPlayer fzp) {
+    public static void createFZPlayerScoreboard(FZPlayer fzp) {
         ScoreboardManager manager = Bukkit.getScoreboardManager();
         Scoreboard board = manager.getNewScoreboard();
         
@@ -24,7 +25,7 @@ public class FZScoreboard {
         Score score = obj.getScore(ChatColor.BLUE + "=-=-=-=-=-=-=-=-=-=-=-=");
         score.setScore(3);
         
-        String str1 = ChatColor.DARK_GREEN + "Username: " + ChatColor.GREEN + player.getName();
+        String str1 = ChatColor.DARK_GREEN + "Username: " + ChatColor.GREEN + fzp.getName();
         Score score1 = obj.getScore(str1);
         score1.setScore(2);
         String str2 = ChatColor.DARK_GREEN + "Rank: " + ChatColor.GREEN + fzp.getRank();
@@ -47,7 +48,28 @@ public class FZScoreboard {
         fzp.addScoreboardEntry("coins", str4);
         fzp.addScoreboardEntry("exp", str5);
         
-        player.setScoreboard(board);
+        fzp.getPlayer().setScoreboard(board);
+    }
+    
+    /**
+     * Create a scoreboard on an FZAnimal that goes under the "name tag" of the animal.
+     * Allows for putting information, such as stack size, on display for players to see.
+     * @param FZAnimal animal - the animal to which the scoreboard should be applied
+     */
+    public static void createFZAnimalScoreboard(FZAnimal animal) {
+        ScoreboardManager manager = Bukkit.getScoreboardManager();
+        Scoreboard board = manager.getNewScoreboard();
+        
+        @SuppressWarnings("deprecation")
+        Objective obj = board.registerNewObjective("FZAnimalBoard", "dummy", "");
+        obj.setDisplaySlot(DisplaySlot.BELOW_NAME);
+        
+        Score score = obj.getScore("Stack: 1");
+        score.setScore(0);
+        
+        Player p = Bukkit.getPlayer(animal.getEntity().getUniqueId());
+        p.setScoreboard(board);
+        
     }
     
     public static void updateLevel(FZPlayer fzp) {
@@ -79,6 +101,22 @@ public class FZScoreboard {
         score.setScore(-2);
         
         fzp.updateScoreboardEntry("exp", sc_str);
+        fzp.getPlayer().setScoreboard(board);
+    }
+    
+    public static void updateRank(FZPlayer fzp) {
+        Scoreboard board = fzp.getPlayer().getScoreboard();
+        board.getEntries().forEach((str) -> {
+            if (str.equals(fzp.getScoreboardEntry("rank"))) {
+                board.resetScores(fzp.getScoreboardEntry("rank"));
+            }
+        });
+        Objective obj = board.getObjective("FZPlayerBoard");
+        String sc_str = ChatColor.DARK_GREEN + "Rank: " + ChatColor.GREEN + fzp.getRank();
+        Score score = obj.getScore(sc_str);
+        score.setScore(1);
+        
+        fzp.updateScoreboardEntry("rank", sc_str);
         fzp.getPlayer().setScoreboard(board);
     }
 

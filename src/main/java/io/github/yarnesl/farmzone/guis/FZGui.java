@@ -5,12 +5,12 @@ import java.util.Arrays;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.yarnesl.farmzone.FZPlayer;
+import io.github.yarnesl.farmzone.PlotMine;
 
 public abstract class FZGui {
     
@@ -47,27 +47,50 @@ public abstract class FZGui {
         return item;
     }
     
-    protected ItemStack createBlockableGuiItem(FZPlayer fzp, int lvlRestriction, Material lockedMat, Material unlockedMat, int amt, String...lore) {
+    protected ItemStack createBlockableGuiItem(String blockType, Object obj, int lvlRestriction, Material lockedMat, Material unlockedMat, int amt, String...lore) {
         
         ItemStack item;
+        item = null;
         ItemMeta meta;
-        if (fzp.getLevel() >= lvlRestriction) {
-            item = new ItemStack(unlockedMat, amt);
-            meta = item.getItemMeta();
-            meta.setLore(Arrays.asList(lore));
+        if (blockType.equals("sources")) {
+            FZPlayer fzp;
+            if (obj instanceof FZPlayer) {
+                fzp = (FZPlayer) obj;
+                if (fzp.getLevel() >= lvlRestriction) {
+                    item = new ItemStack(unlockedMat, amt);
+                    meta = item.getItemMeta();
+                    meta.setLore(Arrays.asList(lore));
+                } else {
+                    item = new ItemStack(lockedMat, amt);
+                    meta = item.getItemMeta();
+                    meta.setDisplayName(ChatColor.RED + "Unlock at Lvl " + lvlRestriction);
+                }
+                item.setItemMeta(meta); 
+            }               
+        } else if (blockType.equals("plotmine_menu")) {
+            PlotMine pm;
+            if (obj instanceof PlotMine) {
+                pm = (PlotMine) obj;
+                if (pm.getSize() >= lvlRestriction) {
+                    item = new ItemStack(unlockedMat, amt);
+                    meta = item.getItemMeta();
+                    meta.setLore(Arrays.asList(lore));
+                } else {
+                    item = new ItemStack(lockedMat, amt);
+                    meta = item.getItemMeta();
+                    meta.setLore(Arrays.asList(lore));
+                }  
+                item.setItemMeta(meta);
+            }
         } else {
-            item = new ItemStack(lockedMat, amt);
-            meta = item.getItemMeta();
-            meta.setDisplayName(ChatColor.RED + "Unlock at Lvl " + lvlRestriction);
-        }
-        
-        item.setItemMeta(meta);    
-        
+            Bukkit.getLogger().info("Invalid blocking type passed to createBlockableGuiItem");
+            return null;
+        }   
         return item;
     }
     
-    public void openInventory(HumanEntity ent) {
-        ent.openInventory(gui);
+    public Inventory getMenu() {
+        return gui;
     }
     
     

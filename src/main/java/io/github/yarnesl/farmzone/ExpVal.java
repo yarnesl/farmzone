@@ -68,8 +68,8 @@ public class ExpVal {
         PUMPKIN_UPPER = section.getLong("pumpkin.upper");
         MELON_LOWER = section.getLong("melon.lower");
         MELON_UPPER = section.getLong("melon.upper");
-        SHEEP_LOWER = section.getLong("wheat.lower");
-        SHEEP_UPPER = section.getLong("wheat.upper");
+        SHEEP_LOWER = section.getLong("sheep.lower");
+        SHEEP_UPPER = section.getLong("sheep.upper");
         NETHERWART_LOWER = section.getLong("netherwart.lower");
         NETHERWART_UPPER = section.getLong("netherwart.upper");
         SUGARCANE_LOWER = section.getLong("sugarcane.lower");

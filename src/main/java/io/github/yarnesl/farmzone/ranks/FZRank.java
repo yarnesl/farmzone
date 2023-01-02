@@ -1,5 +1,9 @@
 package io.github.yarnesl.farmzone.ranks;
 
+import org.bukkit.ChatColor;
+
+import io.github.yarnesl.farmzone.FZPlayer;
+
 public enum FZRank {
     FARMER,
     RANCHER,
@@ -34,5 +38,30 @@ public enum FZRank {
         } else {
             return "null";
         }
+    }
+    
+    public static String generateChatTag(FZPlayer fzp) {
+        FZRank rank = fzp.getRank();
+        String tag;
+        
+        switch(rank) {
+            case FARMER:
+                tag = ChatColor.GRAY + "[FARMER] " + ChatColor.WHITE + "<" + fzp.getName() + "> ";
+                break;
+            case RANCHER:
+                tag = ChatColor.GOLD + "[RANCHER] " + ChatColor.WHITE + "<" + fzp.getName() + "> ";
+                break;
+            case BOTANIST:
+                tag = ChatColor.GREEN + "[BOTANIST] " + ChatColor.WHITE + "<" + fzp.getName() + "> ";
+                break;
+            case OWNER:
+                tag = ChatColor.RED + "[OWNER] " + ChatColor.WHITE + "<" + fzp.getName() + "> ";
+                break;
+            default:
+                tag = "";
+                break;
+        }
+        return tag;
+        
     }
 }

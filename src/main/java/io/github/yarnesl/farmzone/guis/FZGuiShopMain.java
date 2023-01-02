@@ -1,25 +1,31 @@
 package io.github.yarnesl.farmzone.guis;
 
 import org.bukkit.Material;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 
-import io.github.yarnesl.farmzone.FZPlayer;
+import io.github.yarnesl.farmzone.FarmZone;
 
-public class FZGuiShopMain extends FZGui{
+public class FZGuiShopMain extends FZGui implements Listener {
 
-    public FZGuiShopMain() {
+    FarmZone plugin;
+    
+    public FZGuiShopMain(FarmZone plugin) {
+        this.plugin = plugin;
         this.createGui(9, "Farmzone Shop Main");
     }
     
     @Override
     protected void populateItems() {
-        gui.setItem(0, createGuiItem("Test shop item", Material.STONE, 1, "This is a test item"));
+        gui.setItem(0, createGuiItem("1x STONE", Material.STONE, 1, "Click to purchase STONE"));
     }
     
-    public static void onMenuClick(Inventory inv, ItemStack itemClicked, FZPlayer fzp) {
-        if (itemClicked.getItemMeta().getDisplayName().equals("Test shop item")) {
-            fzp.getPlayer().sendMessage("Shop under construction bro");
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent e) {     
+        if (e.getView().getTitle().equals("Farmzone Shop Main")) {
+            e.setCancelled(true);
+            e.getWhoClicked().sendMessage("Shop under construction");
         }
     }
 

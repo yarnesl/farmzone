@@ -19,6 +19,11 @@ public class FZPlayer {
     private int coins;
     private long exp;
     
+    //Modifiers: Value between 0 and 100, inclusive
+    //Describes percent chance of event occuring
+    private int cropDropChance;
+    private int animalDropChance;
+    
     private FZRank rank;
     
     private boolean filled;
@@ -39,6 +44,8 @@ public class FZPlayer {
         this.filled = false;
         this.existed = false;
         this.player = null;
+        this.cropDropChance = 50;
+        this.animalDropChance = 50;
         scoreboardEntries = new HashMap<String, String>();
         
     }
@@ -118,7 +125,8 @@ public class FZPlayer {
     
     public void addExp(long amount) {
         this.exp += amount;
-        attemptLvlUp();
+        FZScoreboard.updateExp(this);
+        attemptLvlUp();        
     }
     
     public long getExp() {
@@ -174,6 +182,26 @@ public class FZPlayer {
         return this.player;
     }
     
+    public void setRank(FZRank rank) {
+        this.rank = rank;
+    }
+    
+    public void setCropDropChance(int chance) {
+        this.cropDropChance = chance;
+    }
+    
+    public void setAnimalDropChance(int chance) {
+        this.animalDropChance = chance;
+    }
+    
+    public int getCropDropChance() {
+        return this.cropDropChance;
+    }
+    
+    public int getAnimalDropChance() {
+        return this.animalDropChance;
+    }
+    
     private void attemptLvlUp() {
         if (this.level == 1 && this.exp >= LvlThresholds.toCarrot) {
             levelUp("carrots");
@@ -222,10 +250,9 @@ public class FZPlayer {
     private void levelUp(String newHarvest) {
         this.level++;
         FZScoreboard.updateLevel(this);
-        this.getPlayer().sendMessage(ChatColor.AQUA + "Congrats! You are now level " + this.level);
-        this.getPlayer().sendMessage(ChatColor.AQUA + "You now have the ability to harvest " + newHarvest + "!");
+        this.getPlayer().sendMessage(ChatColor.AQUA + "Congrats! You are now level " + ChatColor.DARK_AQUA + this.level);
+        this.getPlayer().sendMessage(ChatColor.AQUA + "You now have the ability to harvest " + ChatColor.DARK_AQUA + newHarvest + ChatColor.DARK_AQUA + "!");
         this.getPlayer().sendMessage(ChatColor.AQUA + "As a reward, you have received the following gifts:");
-    }
-    
+    }    
 
 }
