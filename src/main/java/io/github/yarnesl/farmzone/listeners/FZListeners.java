@@ -45,7 +45,8 @@ public class FZListeners implements Listener {
 	    if (PlotMineController.playerHasPlotMine(player.getUniqueId())) {
             PlotMine pm = PlotMineController.getPlotMine(player.getUniqueId());
             plugin.getLogger().info("tethering player " + player.getUniqueId().toString() + " to serialized plotmine");
-            player.setMetadata("fzplotmine", new FixedMetadataValue(plugin, pm));   
+            player.setMetadata("fzplotmine", new FixedMetadataValue(plugin, pm));  
+            pm.startPlotMineResetLoop(1200L, 12000L);
         }
 	}
 	
@@ -71,7 +72,19 @@ public class FZListeners implements Listener {
 	
 	@EventHandler
 	public void onPlayerQuit(PlayerQuitEvent e) {
-	    plugin.removeActivePlayer(e.getPlayer().getUniqueId().toString());
+	    FZPlayer fzp;
+	    fzp = plugin.removeActivePlayer(e.getPlayer().getUniqueId().toString());
+	    Player p = fzp.getPlayer();
+	    
+	    ArrayList<MetadataValue> mlist = new ArrayList<MetadataValue>(p.getMetadata("fzplotmine"));
+	    if (mlist.size() > 0) {
+	        FixedMetadataValue fmd = (FixedMetadataValue) mlist.get(0);
+	        if (fmd.value() instanceof PlotMine) {
+	            PlotMine pm = (PlotMine) fmd.value();
+	            pm.setAutoRefill(false);
+	        }
+	    }
+	    
 	}
 	
 	@EventHandler

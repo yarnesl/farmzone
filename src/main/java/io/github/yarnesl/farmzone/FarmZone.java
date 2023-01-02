@@ -124,6 +124,7 @@ public class FarmZone extends JavaPlugin {
 	            PlotMine pm = PlotMineController.getPlotMine(player.getUniqueId());
 	            plugin.getLogger().info("tethering player " + player.getUniqueId().toString() + " to serialized plotmine");
     	        player.setMetadata("fzplotmine", new FixedMetadataValue(this, pm));
+    	        pm.startPlotMineResetLoop(1200L, 12000L);
 	        }
 		}	
 		

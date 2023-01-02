@@ -37,6 +37,7 @@ public class PlotMine {
     private boolean hasPhysicalPresence;
     private boolean showParticles;
     private boolean existed;
+    private boolean isAutoRefill;
     
     public FarmZone plugin;
     private String errorMessage;
@@ -97,6 +98,7 @@ public class PlotMine {
         this.showParticles = false;
         this.existed = false;
         this.valuableMats = new HashSet<Material>();
+        this.isAutoRefill = false;
         
     }
     
@@ -125,6 +127,7 @@ public class PlotMine {
             this.villager.setMetadata("associatedFZPlotmine", new FixedMetadataValue(this.plugin, this));
         }
         this.valuableMats = new HashSet<Material>();
+        this.isAutoRefill = false;
     }   
     
     public void setInv(Inventory inv) {
@@ -237,6 +240,11 @@ public class PlotMine {
          * the PlotMine is built
          */
         FZGuiPlotMine.changePlotMineInventory("chest", this);
+        
+        /*
+         * Start the loop that allows the PlotMine to automatically refill every 10 minutes
+         */
+        this.startPlotMineResetLoop(1200L, 12000L);
     }
     
     public void deconstruct() {
@@ -394,5 +402,74 @@ public class PlotMine {
         
         return true;
     }
-
+    
+    public String serializeFillMaterials() {
+        StringBuilder s = new StringBuilder();
+        
+        if (this.fillMat != null) {
+            s.append(this.fillMat.toString());
+        } else {
+            return "";
+        }
+        Material[] valMats = getValuableMaterials();
+        
+        for (int i = 0; i < valMats.length; i++) {
+            s.append(',');
+            s.append(valMats[i].toString());
+        }
+        
+        return s.toString();
+        
+    }
+    
+    public void deserializeFillMaterials(String serialMaterials) {
+        int ind = serialMaterials.indexOf(',');
+        String substr;
+        if (serialMaterials.length() > 0) {
+            if (ind == -1) {
+                this.fillMat = Material.valueOf(serialMaterials);
+                substr = "";
+            } else {
+                this.fillMat = Material.valueOf(serialMaterials.substring(0, ind));
+                substr = serialMaterials.substring(ind);
+            }
+            
+            Bukkit.getLogger().info(substr);
+            
+            while (substr.length() > 1) {
+                ind = substr.indexOf(',', 1);
+                if (ind != -1 ) {
+                    addValuableMaterial(Material.valueOf(substr.substring(1, ind)));
+                    substr = substr.substring(ind);
+                } else {
+                    addValuableMaterial(Material.valueOf(substr.substring(1)));
+                    substr = "";
+                }
+                
+            }
+        }
+    }
+    
+    public boolean isAutoRefill() {
+        return this.isAutoRefill;
+    }
+    
+    public void setAutoRefill(boolean val) {
+        this.isAutoRefill = val;
+    }
+    
+    public void startPlotMineResetLoop(long delay, long period) {
+        PlotMine pm = this;
+        pm.setAutoRefill(true);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (pm.isAutoRefill()) {
+                    pm.fillPlotMine();
+                } else {
+                    this.cancel();
+                }
+            }
+        }.runTaskTimer(plugin, delay, period);
+    }
 }

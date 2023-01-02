@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 
 import io.github.yarnesl.farmzone.guis.FZGuiPlotMine;
@@ -95,7 +96,9 @@ public class PlotMineController {
             loc = new Location(world, x, y, z);
             
             /* Create new object and store in list */
-            pm = new PlotMine(plugin, playerId, size, hasPhysicalPresence, loc, mirrors, villagerID);
+            pm = new PlotMine(plugin, playerId, size, hasPhysicalPresence, loc, mirrors, villagerID);            
+            pm.deserializeFillMaterials(result.getString("fillMaterials"));
+            
             addPlotMine(playerId, pm);
             
         }       
@@ -117,7 +120,7 @@ public class PlotMineController {
             String sql;
             PreparedStatement stmt;
             if (pm.existedInDB()) {
-                sql = "UPDATE plotmines SET `size`=?, `hasPhysicalPresence`=?, `xmirror`=?, `zmirror`=?, `villagerID`=?, `xcoord`=?, `ycoord`=?, `zcoord`=? WHERE `playerid`=?";
+                sql = "UPDATE plotmines SET `size`=?, `hasPhysicalPresence`=?, `xmirror`=?, `zmirror`=?, `villagerID`=?, `xcoord`=?, `ycoord`=?, `zcoord`=?, `fillMaterials`=? WHERE `playerid`=?";
                 Bukkit.getLogger().info("updating");
                 try {
                     stmt = db.getDBConnection().prepareStatement(sql);                
@@ -129,13 +132,14 @@ public class PlotMineController {
                     stmt.setInt(6, pm.getX());
                     stmt.setInt(7, pm.getY());
                     stmt.setInt(8, pm.getZ());
-                    stmt.setString(9, pm.getUuid().toString());
+                    stmt.setString(9, pm.serializeFillMaterials());
+                    stmt.setString(10, pm.getUuid().toString());
                     stmt.executeUpdate();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             } else {
-                sql = "insert into plotmines values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                sql = "insert into plotmines values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 Bukkit.getLogger().info("inserting");
                 try {
                     stmt = db.getDBConnection().prepareStatement(sql);
@@ -149,6 +153,7 @@ public class PlotMineController {
                     stmt.setInt(7, pm.getX());
                     stmt.setInt(8, pm.getY());
                     stmt.setInt(9, pm.getZ());
+                    stmt.setString(10, pm.serializeFillMaterials());
                     stmt.executeUpdate();
                 } catch (SQLException e) {
                     e.printStackTrace();
